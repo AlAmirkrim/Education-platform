@@ -6,8 +6,8 @@ node_modules/
 .env.local
 .env.production
 
-# Data files (contains sensitive user data)
-data.json
+# Data files (keep data.json for deployment)
+# data.json
 
 # Log files
 *.log
