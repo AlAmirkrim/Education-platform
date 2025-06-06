@@ -1,37 +1,33 @@
-# ملف البيانات الحقيقية - يحتوي على بيانات المستخدمين الفعلية
-data.json
-
-# ملفات Node.js
+# Node modules
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# ملفات البيئة - تحتوي على معلومات حساسة
+# Environment variables
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.production
 
-# ملفات السجلات
+# Data files (contains sensitive user data)
+data.json
+
+# Log files
 *.log
 logs/
 
-# ملفات النظام
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# ملفات المحرر
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# ملفات التغطية والاختبارات
-coverage/
-.nyc_output/
-
-# ملفات مؤقتة
-tmp/
-temp/
+# Temporary files
+*.tmp
+*.temp
