@@ -24,6 +24,7 @@ app.use(express.static('.'));
 
 // مسار ملف البيانات
 const DATA_FILE = path.join(__dirname, 'data.json');
+const CLEAN_DATA_FILE = path.join(__dirname, 'data-clean.json');
 
 // تحميل البيانات من الملف
 let data = {};
@@ -34,26 +35,91 @@ const loadData = () => {
       const fileContent = fs.readFileSync(DATA_FILE, 'utf8');
       data = JSON.parse(fileContent);
       console.log('تم تحميل البيانات من ملف data.json');
+    } else if (fs.existsSync(CLEAN_DATA_FILE)) {
+      const fileContent = fs.readFileSync(CLEAN_DATA_FILE, 'utf8');
+      data = JSON.parse(fileContent);
+      console.log('تم تحميل البيانات من ملف data-clean.json');
+      // إنشاء ملف data.json من البيانات النظيفة
+      saveData();
     } else {
-      console.log('ملف البيانات غير موجود، سيتم إنشاء ملف جديد');
-      data = {
-        users: [],
-        lessons: [],
-        nextUserId: 1,
-        nextLessonId: 1
-      };
+      console.log('ملف البيانات غير موجود، سيتم إنشاء ملف جديد مع بيانات تجريبية');
+      data = createDefaultData();
       saveData();
     }
   } catch (error) {
     console.error('خطأ في تحميل البيانات:', error);
-    data = {
-      users: [],
-      lessons: [],
-      nextUserId: 1,
-      nextLessonId: 1
-    };
+    console.log('إنشاء بيانات افتراضية...');
+    data = createDefaultData();
+    saveData();
   }
 };
+
+// إنشاء البيانات الافتراضية
+function createDefaultData() {
+  return {
+    users: [
+      {
+        id: 1,
+        email: "teacher@example.com",
+        username: "معلم_تجريبي",
+        firstName: "أحمد",
+        lastName: "محمد",
+        userType: "teacher",
+        passwordHash: "$2a$10$8K1p/a0dC2VWtAoOeexIp.5XlZbK4zqNTTRJKN2n6qJtVQq1rE8GO",
+        specialization: "الرياضيات",
+        experience: "5 سنوات",
+        bio: "معلم رياضيات متخصص في التعليم الإلكتروني",
+        createdAt: "2024-01-01T00:00:00.000Z",
+        updatedAt: "2024-01-01T00:00:00.000Z"
+      },
+      {
+        id: 2,
+        email: "student@example.com",
+        username: "طالب_تجريبي",
+        firstName: "فاطمة",
+        lastName: "علي",
+        userType: "student",
+        passwordHash: "$2a$10$8K1p/a0dC2VWtAoOeexIp.5XlZbK4zqNTTRJKN2n6qJtVQq1rE8GO",
+        createdAt: "2024-01-01T00:00:00.000Z",
+        updatedAt: "2024-01-01T00:00:00.000Z"
+      }
+    ],
+    lessons: [
+      {
+        id: 1,
+        title: "مقدمة في الجبر",
+        description: "درس تمهيدي في أساسيات الجبر للمبتدئين",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        subject: "الرياضيات",
+        grade: "الصف التاسع",
+        pdfUrls: [],
+        teacherId: 1,
+        views: 0,
+        likes: 0,
+        likedBy: [],
+        createdAt: "2024-01-01T00:00:00.000Z",
+        updatedAt: "2024-01-01T00:00:00.000Z"
+      },
+      {
+        id: 2,
+        title: "المعادلات الخطية",
+        description: "شرح مفصل للمعادلات الخطية وطرق حلها",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        subject: "الرياضيات",
+        grade: "الصف العاشر",
+        pdfUrls: [],
+        teacherId: 1,
+        views: 0,
+        likes: 0,
+        likedBy: [],
+        createdAt: "2024-01-01T00:00:00.000Z",
+        updatedAt: "2024-01-01T00:00:00.000Z"
+      }
+    ],
+    nextUserId: 3,
+    nextLessonId: 3
+  };
+}
 
 // حفظ البيانات في الملف
 const saveData = () => {
